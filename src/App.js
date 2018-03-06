@@ -1,19 +1,39 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './stylesheets/App.css';
+import { ApolloProvider, graphql } from 'react-apollo';
+import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset';
+import gql from 'graphql-tag';
+import Ants from './ants.jsx';
+
+
+const client = new ApolloClient({
+  link: new HttpLink({ uri: 'https://antserver-blocjgjbpw.now.sh/graphql' }),
+  cache: new InMemoryCache()
+});
+
+const AntsGraph= graphql(gql`
+   query antsGraphql {
+     ants {
+       name
+       length
+       color
+       weight
+     }
+   }
+ `)(Ants);
 
 class App extends Component {
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+      <ApolloProvider client={client}>
+        <div className="App">
+          <div className="App-header">
+            <h1>Ant Racing</h1>
+          </div>
+          <AntsGraph />
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      </ApolloProvider>
     );
   }
 }
