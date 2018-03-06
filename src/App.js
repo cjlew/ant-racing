@@ -3,7 +3,7 @@ import './stylesheets/App.css';
 import { ApolloProvider, graphql } from 'react-apollo';
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset';
 import gql from 'graphql-tag';
-import Ants from './ants.jsx';
+import AntsContainer from './components/AntsContainer.js';
 
 
 const client = new ApolloClient({
@@ -20,7 +20,7 @@ const AntsGraph= graphql(gql`
        weight
      }
    }
- `)(Ants);
+ `)(AntsContainer);
 
 class App extends Component {
 
